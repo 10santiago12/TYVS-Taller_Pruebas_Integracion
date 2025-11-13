@@ -1,10 +1,6 @@
 // src/main/java/edu/unisabana/tyvs/registry/config/RegistryConfig.java
 package edu.unisabana.tyvs.registry.config;
 
-import edu.unisabana.tyvs.registry.application.port.out.RegistryRepositoryPort;
-import edu.unisabana.tyvs.registry.application.usecase.Registry;
-import edu.unisabana.tyvs.registry.infrastructure.persistence.RegistryRepository;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
