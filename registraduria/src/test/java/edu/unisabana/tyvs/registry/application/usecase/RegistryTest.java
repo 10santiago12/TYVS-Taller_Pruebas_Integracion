@@ -87,4 +87,70 @@ public class RegistryTest {
         // Assert segundo registro
         assertEquals(RegisterResult.DUPLICATED, result2);
     }
+
+    /**
+     * Caso de prueba:
+     * <p>Una persona menor de 18 años debe ser rechazada con estado UNDERAGE.</p>
+     */
+    @Test
+    public void shouldRejectUnderagePerson() throws Exception {
+        // Arrange
+        Person p1 = new Person("Carlos", 200, 15, Gender.MALE, true);
+
+        // Act
+        RegisterResult result = registry.registerVoter(p1);
+
+        // Assert
+        assertEquals(RegisterResult.UNDERAGE, result);
+        assertFalse(repo.existsById(200));
+    }
+
+    /**
+     * Caso de prueba:
+     * <p>Una persona fallecida (alive=false) debe ser rechazada con estado DEAD.</p>
+     */
+    @Test
+    public void shouldRejectDeadPerson() throws Exception {
+        // Arrange
+        Person p1 = new Person("Maria", 300, 45, Gender.FEMALE, false);
+
+        // Act
+        RegisterResult result = registry.registerVoter(p1);
+
+        // Assert
+        assertEquals(RegisterResult.DEAD, result);
+        assertFalse(repo.existsById(300));
+    }
+
+    /**
+     * Caso de prueba:
+     * <p>Una persona con ID inválido (menor o igual a 0) debe ser rechazada con estado INVALID.</p>
+     */
+    @Test
+    public void shouldRejectInvalidId() throws Exception {
+        // Arrange
+        Person p1 = new Person("Pedro", -5, 25, Gender.MALE, true);
+
+        // Act
+        RegisterResult result = registry.registerVoter(p1);
+
+        // Assert
+        assertEquals(RegisterResult.INVALID, result);
+    }
+
+    /**
+     * Caso de prueba:
+     * <p>Una persona nula debe ser rechazada con estado INVALID.</p>
+     */
+    @Test
+    public void shouldRejectNullPerson() throws Exception {
+        // Arrange
+        Person p1 = null;
+
+        // Act
+        RegisterResult result = registry.registerVoter(p1);
+
+        // Assert
+        assertEquals(RegisterResult.INVALID, result);
+    }
 }
